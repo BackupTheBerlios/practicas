@@ -1,0 +1,645 @@
+\documentclass[notes,a4,slidesec,dvips]{seminar}
+\usepackage[isolatin]{inputenc}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{moreverb}
+\usepackage{slnuevo}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{graphicx}
+\def\contstr{(contd.)}
+
+\title{Curso de introducción a CVS}
+\author{\parbox{5.2cm}{\center Grupo de usuarios de linux\\
+    {\small Univ. Carlos III de Madrid}}}
+
+\date{27 de noviembre de 2002}
+\cop{2002 Álvaro Sánchez-Mariscal}
+%\address{\ }
+\conference{Álvaro Sánchez-Mariscal (\texttt{mariscal@di.uc3m.es})}
+\sltitle{Curso de introducción a CVS}
+
+
+\begin{document}
+\selectlanguage{spanish}
+\maketitle 
+
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Contenido}
+	\begin{itemize}
+	\item ¿Qué es CVS?.
+	\item ¿Qué no es CVS?.
+	\item Conceptos básicos.
+	\item Instalación y configuración.
+	\item Una sesión de trabajo típica.
+	\item Comandos más importantes.
+	\item Conflictos.
+	\item Comentarios.
+	\item Direcciones de interés.
+	\item Dudas y preguntas.
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{¿Qué es CVS? (I)}
+	\begin{itemize}
+	\item Concurrent Versions System.
+	\item Sistema cliente/servidor de control de versiones.
+	\item Mantiene un repositorio de software centralizado, permitiendo que
+		  grupos de personas trabajen simultáneamente sobre él de forma
+		  distribuída.
+	\item CVS se encarga de unificar las modificaciones que puedan hacer cada
+		  de los usuarios.
+	\item Muy útil para proyectos en los que haya involucradas una o más
+	      personas.
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{¿Qué es CVS? (y II)}
+\begin{figure}
+\begin{center}
+\includegraphics[height=5cm]{cvs.eps}
+\caption{Esquema del funcionamiento de CVS}
+\end{center}
+\end{figure}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{¿Qué no es CVS}
+	\begin{itemize}
+	\item No construye aplicaciones (\textit{make}), sólo almacena archivos.
+	\item No sustituye la figura de coordinador o jefe de proyecto.
+	\item No anula la comunicación entre desarrolladores, sólo trata conflictos
+		  de forma textual.
+	\item No tiene un control de cambios sobre bugs.
+	\item No depura ni prueba aplicaciones.
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Conceptos básicos (I)}
+	\begin{description}
+	\item [Repositorio] El directorio en el servidor a partir del cual se
+	      almacenan todos los ficheros (ej: \texttt{/home/cvs}).
+	\item [Módulo] Un directorio específico del repositorio. Cada proyecto se
+	      almacena en un módulo (ej: \texttt{practica-iissoo}).
+	\item [Check-out] Operación que sirve para \textbf{descargar} el contenido de un
+	      módulo. Se hace una sóla vez.
+	\item [Commit] Operación que sirve para \textbf{subir} los cambios que un
+		  desarrollador ha hecho sobre su copia local. Se suele hacer tras una
+		  sesión de trabajo, y sobre código que funciona (o que al menos
+		  compila).
+	\item [Update] Operación que sirve para actualizar la copia local con los
+	      cambios que hayan podido hacer otros desarrolladores. Se hace siempre
+		  antes de una sesión de trabajo.
+	\end{description}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Conceptos básicos (y II)}
+	\begin{description}
+	\item [Revisión] Indicador numérico o alfanumérico que existe sobre cada fichero del
+  	      proyecto (ej: \texttt{1.3}).
+	\item [Rama] Versión especial que se puede crear sobre una versión estable
+		  de un repositorio para optimizar código, probar nuevas
+		  funcionalidades, etc.
+	\item [Tag] Agrupación lógica que se puede hacer sobre un estado concreto de
+		  un proyecto (ej: \texttt{VERSION\_1\_0}). Un tag concreto no es más
+		  que las revisiones que tenían los fuentes en el momento de crear el
+		  tag.
+	\item [\textbf{\texttt{\$CVSROOT}}] Variable de entorno definida en los clientes que
+	      indica el método de conexión con el servidor, el usuario, la ruta al
+		  repositorio en el servidor, etc (ej: \small{
+		  \texttt{:pserver:anonymous@cvs.gnome.org:2401:/home/cvs}}).
+	\end{description}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Instalación y configuración. Método pserver (I)}
+	\begin{itemize}
+		\item Instalación en Debian :-) \\
+			  \verb+# apt-get install cvs+
+		\item Instalación en el resto de distribuciones: rpm, tar.gz, etc.
+		\item Creación del usuario y grupo cvs: \\
+			  \verb+# adduser --system --group cvs+
+		\item Configuración de \texttt{/etc/inetd.conf} + TCP wrappers: \\
+			  \verb+cvspserver stream tcp nowait root \+ \\
+					\verb+/usr/sbin/tcpd /usr/bin/cvs \+ \\
+					\verb+-b /usr/bin -f --allow-root=/home/cvs pserver+
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Instalación y configuración. Método pserver (II)}
+	\begin{itemize}
+		\item Relanzamiento de inetd \\
+			  \verb+# killall -HUP inetd+
+		\item Creación de un \textbf{repositorio} \\
+			  \verb+# export CVSROOT=/home/cvs+ \\
+			  \verb+# cvs init+
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Instalación y configuración. Método pserver (III)}
+	\begin{itemize}
+		\item Creación de cuentas de usuario en el \textbf{repositorio} \\
+				\verb+# cd $CVSROOT/CVSROOT+ \\
+				\verb+# htpasswd -c passwd mariscal+ \\
+				\verb+New password:+ \\
+				\verb+Re-type new password:+ \\
+				\verb+Adding password for user mariscal+
+		\item Modificación de \texttt{passwd} para mapear el usuario del CVS (\texttt{mariscal}) 
+			  a un usuario del sistema (\texttt{cvs}) \\
+				\verb+# cat passwd+ \\
+				\verb+mariscal:WtQFeRvWcxdvg:cvs+
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Instalación y configuración. Método pserver (y IV)}
+	\begin{itemize}
+		\item Creación de un \textbf{módulo}
+			\begin{itemize}
+				\item Comando \verb+import+.
+				\item Sintaxis: \verb+cvs import -m "comentario" nombre-modulo+ \\ 
+								\verb+nombre-vendedor nombre-tag+
+				\item Ejemplo: \verb+cvs import -m "Creación del repositorio"+ \\ 
+							   \verb+practica-iissoo mariscal VERSION_INICIAL+
+			\end{itemize}
+		\item Establecimiento de  propietarios: \\
+			  \begin{verbatim}
+					# chown -R cvs:cvs $CVSROOT
+			  \end{verbatim}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Instalación y configuración. Método SSH (I)}
+	\begin{itemize}
+	\item En la autenticación con el método pserver las contraseñas (y todo lo demás) 
+		  viajan en claro :(
+	\item Con el método ssh, la comunicación con el servidor se realiza de forma
+		  segura :)
+	\item Pero con el método ssh, los usuarios del CVS tienen que ser usuarios
+	 	  del sistema (es decir, tener cuenta en \texttt{/etc/passwd} con una shell
+		  válida) :(
+	\item Con el método pserver, el único usuario del sistema es el usuario
+		  no privilegiado \texttt{cvs} :)
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Instalación y configuración. Método SSH (II)}
+	\begin{itemize}
+	\item Variable \texttt{CVS\_RSH=/usr/bin/ssh}
+	\item Variable \texttt{CVSROOT=":\textbf{ext}:mariscal@cvs.hispalinux.es:/home/cvs"}
+	\item Cada vez que se ejecute un comando CVS, se deberá introducir la contraseña.
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Una sesión de trabajo típica (I)}
+	\begin{itemize}
+		\item Nos autenticamos en el servidor: \\
+			  \verb+$ cvs login+ \\
+			  \small{\verb+Logging in to :pserver:mariscal@cvs.hispalinux.es:2401/home/cvs+} \\
+			  \verb+CVS password:+
+		\item Nos bajamos un módulo: \\
+			  \verb+$ cvs co curso-cvs+ \\
+			  \verb+cvs server: Updating curso-cvs+ \\
+			  \verb+U curso-cvs/Makefile+ \\
+			  \verb+U curso-cvs/curso-cvs.tex+ \\
+			  \verb+U curso-cvs/gul.epsi+ \\
+			  \verb+U curso-cvs/slnuevo.sty+ \\
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Una sesión de trabajo típica (II)}
+	\begin{itemize}
+		\item Editamos y realizamos los cambios que sean necesarios.
+		\item Subimos los cambios al repositorio: \\
+				\verb+$ cvs ci -m "Añadida sección 3" curso-cvs.tex+ \\
+				\verb+Checking in curso-cvs.tex;+ \\
+				\verb+/home/cvs/curso-cvs/curso-cvs.tex,v  <--  curso-cvs.tex+ \\
+				\verb+new revision: 1.5; previous revision: 1.4+ \\
+				\verb+done+
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Una sesión de trabajo típica (y III)}
+	\begin{itemize}
+		\item \ldots días después volvemos a trabajar sobre el proyecto.
+			  Actualizamos nuestra copia local con los cambios que hayan podido
+			  hacer otros usuarios: \\
+				\verb+$ cvs up -d -P+ \\
+				\verb+? curso-cvs.dvi+ \\
+				\verb+? curso-cvs.ps+ \\
+				\verb+cvs server: Updating .+ \\
+				\verb+P Makefile+ \\
+				\verb+P curso-cvs.tex+
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (I). Add}
+	\begin{itemize}
+		\item \verb+cvs add [-k flag] [-m "comentario"] ficheros...+
+		\item Añade ficheros y/o directorios a un repositorio
+		\item Para añadir un fichero que está en un directorio que no existe
+			  en el repositorio, primero se añade el directorio y luego el
+			  fichero
+		\item Después de añadirlo hay que hacer un commit del fichero añadido
+		\item Ejemplo
+			\begin{itemize}
+				\item \verb+$ cvs add LEEME.txt+ \\
+				\verb+cvs add: scheduling file `LEEME.txt' for addition+ \\
+				\verb+cvs add: use 'cvs commit' to add this file permanently+
+				\item \verb+$ cvs add -kb logo.gif+
+			\end{itemize}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (II). Checkout}
+	\begin{itemize}
+		\item \verb+cvs checkout|co|get [opciones] modulos...+
+		\item Se baja del servidor CVS una copia del módulo o módulos
+			  especificados
+		\item Se realiza sólo una vez
+			\begin{itemize}
+				\item En el resto de ocasiones se harán \textit{updates} sobre
+				la copia local
+			\end{itemize}
+		\item Ejemplo
+			\begin{itemize}
+				\item \verb+$ cvs co curso-cvs/curso-cvs.tex+
+			\end{itemize}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (III). Commit}
+	\begin{itemize}
+		\item \verb+cvs commit|ci [-lnR] [-m 'msj' | -f fich] [-r revisión] \\+ \\
+		      \verb+	[ficheros...]+
+		\item Sube al repositorio los cambios realizados en la copia local
+		\item \textbf{Importante}: para poder hacer un commit debemos estar
+			  trabajando sobre la última versión de los archivos que hayamos
+			  modificado
+		\item Ejemplo
+			\begin{itemize}
+				\item \verb+$ cvs ci -m "Añadido método toString()" Bot.java+
+			\end{itemize}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (IV). Diff}
+	\begin{itemize}
+		\item \verb+cvs diff [-kl] [opciones] [[-r rev1 | -D fecha1] \\+ \\
+		      \verb+	[-r rev2 | -D fecha2]] [ficheros...]+
+		\item Compara archivos locales con las versiones del repositorio, o bien
+			  dos revisiones entre sí
+		\item Como la utilidad \texttt{diff} de Unix/Linux
+		\item Ejemplo
+			\begin{itemize}
+				\item \verb+$ cvs diff -r RELEASE_1_0 -r EXPR1+
+				\item Compara las diferencias entre los \textit{tags}
+				\texttt{RELEASE\_1\_0} y \texttt{EXPR1}
+			\end{itemize}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (V). Export}
+	\begin{itemize}
+		\item \verb+cvs export [-flNnR] [-r rev|-D fecha] [-k flag] \\+ \\
+		      \verb+	[-d dir] modulo...+
+		\item Extrae los archivos de un módulo para producir una distribución
+		independente del CVS
+		\item Es necesario indicar un \textit{tag} (\texttt{-r}) o una fecha
+		(\texttt{-d})
+		\item Funciona como \textit{checkout}, pero no baja los directorios
+		administrativos \texttt{CVS}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (VI). Import}
+	\begin{itemize}
+		\item \verb+cvs import -m "comentario" nombre-modulo \\+ \\
+			  \verb+	nombre-vendedor nombre-version+
+		\item Instala un conjunto de archivos en el repositorio
+		\item Se mantiene la organización de directorios original
+		\item Añade todos los archivos y directorios que se encuentren en el
+		directorio donde se ejecutó el import.
+		\item Ejemplo: \\
+			  \verb+$ cvs import -m "Repositorio Prueba" prueba malvarez v0+ \\
+			  \verb+N prueba/README.txt+ \\
+			  \verb+cvs import: Importing /home/i5/CVS/is0/prueba/test+ \\
+			  \verb+N prueba/test/README.txt+ \\
+			  \verb+ + \\
+			  \verb+No conflicts created by this import+
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comados más importantes (VII). Log}
+	\begin{itemize}
+		\item \verb+cvs log [opciones] [ficheros...]+
+		\item Muestra el historial de los archivos especificados
+		\item El historial es la información facilitada en los \textit{commits}
+		\item Como todos los comandos, si no se especifica ningún fichero,
+		muestra un comportamiento recursivo
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (VIII). Remove}
+	\begin{itemize}
+		\item \verb+cvs remove [-flR] [ficheros...]+
+		\item Elimina ficheros/directorios del repositorio
+		\item Para poder eliminar un fichero, debe haber sido eliminado
+		previamente de la copia local
+		\item Esto se puede hacer en un sólo paso con la opción \texttt{-f}
+		\item Después de eliminarlo, hay que hacer un \textit{commit}
+		\item Ejemplo
+			\begin{itemize}
+				\item Este comando \ldots
+				\begin{verbatim}
+					$ rm *.c
+					$ cvs remove
+				\end{verbatim}
+				\item \ldots equivale a este otro \ldots
+				\begin{verbatim}
+					$ cvs remove -f *.c
+				\end{verbatim}
+			\end{itemize}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (IX). Tag}
+	\begin{itemize}
+		\item \verb+cvs tag [opciones] nombre-tag [ficheros...]+
+		\item Añade una etiqueta simbólica a un fichero o conjunto de ficheros
+		de un módulo.
+		\item Agrupa las revisiones que en ese momento tuviera cada archivo
+		\item Por ejemplo, el tag \texttt{VERSION\_1\_0} podría estar formado por:
+			  \begin{verbatim}
+				ci.c            1.4
+				ident.c         1.28
+				rcs.c           2.17
+				rcsbase.h       1.14
+				rcsedit.c       3.26
+				rcsfcmp.c       5.0
+				rcslex.c        2.7
+			  \end{verbatim}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comandos más importantes (X). Update}
+	\begin{itemize}
+		\item \verb+cvs update|up [opciones] [ficheros]+
+		\item Actualiza la copia local con las versiones que existen en el
+		repositorio
+		\item Debe hacerse siempre antes de modificar cualquier archivo, para
+		asegurarnos que estamos trabajando sobre las últimas versiones
+		\item Con la opción {\tt -d}, se crearán todos los archivos y
+		directorios que no existan en nuestra copia local pero sí en el
+		repositorio
+		\item Con la opción {\tt -P}, no se bajará aquellos directorios que
+		estén vacíos
+		\item Ejemplo:
+			\begin{verbatim}
+				$ cvs up -d -P
+			\end{verbatim}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Conflictos (I)}
+	\begin{itemize}
+		\item Existe la posibilidad de que dos desarrolladores estén modificando
+		simultáneamente el mismo archivo
+		\item Es algo que se debe evitar flecha {\bf comunicación}
+		\item Uno de los dos hará primero el commit, aumentando la versión del
+		fichero
+		\item En ese instante, la segunda persona estará trabajando sobre una
+		versión obsoleta. Cuando intente hacer el commit, CVS no le va a dejar
+		\item Esta segunda persona debe entonces actualizar (update) el archivo
+		\item Muy probablemente la copia local modificada no coincidirá con la
+		nueva versión que subió el primer desarrollador
+		\item Se ha producido un {\bf conflicto}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Conflictos (II)}
+	\begin{itemize}
+		\item Veamos un ejemplo:
+			\begin{verbatim}
+				$ cvs up
+				cvs update: Updating .
+				RCS file: /var/cvs/web/menu.php,v
+				retrieving revision 1.5
+				retrieving revision 1.6
+				Merging differences between 1.5 and 1.6 into menu.php
+				rcsmerge: warning: conflicts during merge
+				cvs update: conflicts found in menu.php
+				C menu.php
+			\end{verbatim}
+		\item Si la mezcla se puede hacer de forma limpia, CVS resolverá el
+		conflicto automáticamente
+		\item Pero la gran mayoría de las veces esto no va a ser posible
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Conflictos (III)}
+	\begin{itemize}
+		\item Si el conflicto no ha podido ser solucionado, el segundo
+		desarrollador deberá resolverlo
+		\item CVS inserta unas marcas en el fichero fuente indicando lo que
+		tenemos nosotros, y lo que había en el repositorio:
+			\begin{verbatim}
+				<<<<<<< menu.php
+				<a href="foro.cgi">Foro</a>
+				=======
+				<a href="libro.cgi">Libro de visitas</a>
+				>>>>>>> 1.6
+			\end{verbatim}
+		\item El segundo desarrollador deberá editar las líneas que dan
+		conflicto, eliminar las marcas, y hacer un commit:
+			\begin{verbatim}
+				$ cvs ci -m "Enlace al libro de visitas arreglado" menu.php
+			\end{verbatim}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comentarios (I)}
+	\begin{itemize}
+		\item La opción \texttt{-k} de todos los comandos sirve para establecer
+		el modo de expansión de las palabras clave (\textit{keywords})
+			\begin{itemize}
+				\item Por ejemplo, con \texttt{-kb} le decimos que el fichero es
+				binario, y que no intente realizar sustitución de palabras clave
+			\end{itemize}
+		\item Lista de palabras clave más importantes
+			\begin{description}
+				\item [\$Id\$] \verb+$Id: curso-cvs.tex,v 1.1 2003/03/30 19:25:04 mariscal Exp $+
+				\item [\$Author\$] \verb+$Author: mariscal $+
+				\item [\$Date\$] \verb+$Date: 2003/03/30 19:25:04 $+
+				\item [\$Revision\$] \verb+$Revision: 1.1 $+
+			\end{description}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comentarios (II)}
+	\begin{itemize}
+		\item La palabra clave \texttt{Log} se comporta de forma especial
+			\begin{itemize}
+				\item Colocando esto en el fichero fuente \ldots \\
+					   \verb+/*+ \\ \verb+ * $Log$+ \\ \verb+ */+
+				\item \ldots se sustituiría por \ldots \\
+					\verb+/*+ \\
+					\verb+ * $Log: curso-cvs.tex,v $
+					\verb+ * Revision 1.1  2003/03/30 19:25:04  mariscal
+					\verb+ * Initial revision
+					\verb+ *+ \\
+					\verb+ * Revision 1.1  1993/12/09 03:30:17  joe+ \\
+					\verb+ * Revisión inicial subida al repositorio+ \\
+					\verb+ */+
+			\end{itemize}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comentarios (III)}
+	\begin{itemize}
+		\item Montando un servidor CVS con {\tt xinetd}
+			\begin{verbatim}
+     service cvspserver {
+          port        = 2401
+          socket_type = stream
+          protocol    = tcp
+          wait        = no
+          user        = root
+          passenv     = PATH
+          server      = /usr/bin/cvs
+          server_args = -f --allow-root=/cvsroot pserver
+     }			
+			\end{verbatim}
+		\item Agregando ficheros binarios \\
+			\verb+cvs add -kb ant.jar+
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comentarios (IV)}
+	\begin{itemize}
+		\item Alternativa a {\tt htpasswd}: {\tt crypt.pl}
+			\begin{verbatim}
+			#!/usr/bin/perl
+			# Uso: crypt.pl usuario
+			srand (time());
+			my $rl="(int(rand(26))+(int(rand(1)+.5)%2?65:97))";
+			my $salt = sprintf("%c%c", eval $rl, eval $rl);
+			my $plaintext = shift || die "Uso: crypt.pl usuario";
+			my $cryptext = crypt ($plaintext, $salt);
+			\end{verbatim}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Comentarios (V)}
+	\begin{itemize}
+		\item Significado de las letras al hacer update o commit:
+			\begin{description}
+				\item [U] La copia local del fichero ha sido actualizada (updated).
+				\item [P] Igual que U, pero sólo se realiza una descarga de un diff, en
+			vez del fichero original (patched).
+				\item [A] El fichero ha sido añadido a la copia local (added).
+				\item [R] El fichero ha sido eliminado, y hay que actualizar el
+			repositorio con un commit (removed).
+				\item [M] El fichero ha sido modificado localmente (modified).
+				\item [C] Ha habido un conflicto al intentar mezclar la copia local con la
+			del repositorio (conflict).
+				\item [?] El fichero está en el subdirectorio local, pero no pertenece al
+			módulo.
+			\end{description}
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Direcciones de interés}
+	\begin{itemize}
+		\item {\tt http://www.cvshome.org} - Página oficial CVS.
+		\item {\tt http://cvsbook-red-bean.com} - Uno de los mejores libros
+		sobre CVS. Disponible como paquete Debian :)
+		\item {\tt http://www.wincvs.org} - Front-end's gráficos para windows,
+		linux y mac.
+		\item {\tt http://www.cvsnt.org} - Servidor CVS para Windows NT/2k.
+		\item {\tt http://www.red-bean.com/cvs2cl} - Crea ficheros Changelog al
+		estilo GNU a partir del CVS
+		\item \small{{\tt http://www.cooptel.qc.ca/~limitln/cvsadmin}} - Herramienta
+		para administrar las cuentas de un repositorio.
+		\item {\tt http://cvsauth.sourceforge.net} - Conjunto de parches para
+		CVS que sirven para no ejecutar el servidor como root. Añade además
+		cifrado SSL en las conexiones pserver tradicionales.
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Dudas y preguntas}
+	\begin{center}
+		\Huge{\Huge\Huge{{¿\ldots?}}}
+	\end{center}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+
+
+\end{document}
+

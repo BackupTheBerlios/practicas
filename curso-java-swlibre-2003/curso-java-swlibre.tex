@@ -1,0 +1,123 @@
+\documentclass[notes,a4,slidesec,dvips]{seminar}
+\usepackage[isolatin]{inputenc}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{moreverb}
+\usepackage{slnuevo}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{graphicx}
+\def\contstr{(contd.)}
+
+\title{Java y Software Libre}
+\author{\parbox{5.2cm}{\center javaHispano\\}}
+
+\date{4 de abril de 2003}
+\cop{2002 javaHispano}
+%\address{\ }
+\conference{Álvaro Sánchez-Mariscal (\texttt{mariscal@javahispano.org}) \\
+			Alberto Molpeceres (\texttt{al@javahispano.org}) \\
+			Martín Pérez (\texttt{martin@javahispano.org})}
+
+\sltitle{Java y Software Libre}
+
+
+\begin{document}
+\selectlanguage{spanish}
+\maketitle 
+
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Contenido}
+	\begin{itemize}
+	\item Evolución de Java: desde 1995 a la actualidad.
+	\item El JCP y las especificaciones.
+	\item Algunos datos estadísticos sobre el JCP.
+	\item Implementaciones libres.
+	\item Dudas y preguntas.
+	\end{itemize}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Java, un nuevo lenguaje}
+	\begin{itemize}
+	\item Nace en 1995.
+	\item Lenguaje de programación propietario de SUN.
+		  \begin{itemize}
+		  \item Sin embargo, SUN era consciente de que era necesario
+				implicar a cuantas más empresas y desarrolladores
+				fuese posible. 
+		  \end{itemize}
+	\item Problemas:
+		  \begin{itemize}
+		  \item La propiedad del software será siempre de SUN y/o sus
+				licenciatarios.
+		  \item No se permitían implementaciones libres de las librerías
+		    	(\texttt{java.*}, \texttt{javax.*} y \texttt{sun.*}).
+	      \item Se prohibía distribuir el JDK o el JRE de SUN desde sitios
+		  		externos a la propia SUN.
+		  \end{itemize}
+
+	\newpage
+
+	\item Aparecen ya grupos de software libre, como \textit{Kaffe} y
+		  \textit{Japhar}.
+	\item Esta situación era muy negativa para el mundo del software
+     	  libre. 
+		  \begin{itemize}
+		  \item Sin embargo, mucha gente estaba de acuerdo con esta
+			    situación.
+			    \begin{itemize}
+			    \item Así se favorece un desarrollo uniforme y se
+					  protege la plataforma de versiones devaluadas
+					  (kit de desarrollo de Microsoft).
+			    \end{itemize}
+		  \end{itemize}
+	\end{itemize}
+
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{La creación del JCP}
+	\begin{itemize}
+	\item Poco a poco Java se iba extendiendo cada vez más.
+	\item Comenzaban a surgir numerosas tecnologías: EJB,
+		  Servlets/JSP, etc.
+	\item Surgió la necesidad de estandarizar las especificaciones.
+		  \begin{itemize}
+		  \item Hacía falta que un organismo imparcial controlara los
+		        distintos desarrollos.
+		  \end{itemize}
+	\item Primera opción: la ISO.
+		  \begin{itemize}
+		  \item Descartada. SUN decía que la excesiva burocracia de
+				estos organismos acabaría con el dinamismo de Java.
+		  \item Ejemplo: CORBA.
+		  \item Esta decisión provocó muchas críticas.
+		  \end{itemize}
+
+	\newpage
+
+	\item Por todo lo anterior, SUN decide crear el \textbf{Java 
+		  Community Process} (JCP) en diciembre de 1998.
+	\item Organismo encargado de asegurar la evolución de Java.
+	\item Controla la creación, evolución y aprobación de las
+		  especificaciones.
+
+	\end{itemize}
+
+\end{hslide}  
+%% -------------------------------------------------------------- 
+
+
+
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+
+
+\end{document}
+
