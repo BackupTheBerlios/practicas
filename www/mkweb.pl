@@ -4,7 +4,7 @@
 #
 # Álvaro Sánchez-Mariscal <mariscal@di.uc3m.es>
 #
-# $Id: mkweb.pl,v 1.1 2003/03/25 11:21:45 mariscal Exp $
+# $Id: mkweb.pl,v 1.2 2003/03/25 12:03:25 mariscal Exp $
 #
 
 use strict;
@@ -36,7 +36,7 @@ sub process () {
 	opendir(SECTIONS, $SECTIONS_DIR) || die "No puedo abrir el directorio $SECTIONS_DIR: $!\n";
 	while($element = readdir(SECTIONS)) {
 		$dir="$SECTIONS_DIR/$element";
-		if ("$element" ne "." && "$element" ne "..") {
+		if ("$element" ne "." && "$element" ne ".." && "$element" ne "CVS") {
 			print "-> Sección: $element\n";
 			print "-------------------------\n";
 			&mk_dir("$OUTPUT/$element");
