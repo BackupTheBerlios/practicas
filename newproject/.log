@@ -1,0 +1,29 @@
+This is TeXk, Version 3.14159 (Web2C 7.4.5) (format=latex 2003.3.18)  20 MAR 2003 20:32
+ %&-line parsing enabled.
+**@PROJECT_NAME@.tex
+(/usr/share/texmf/tex/latex/tools/.tex
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, british, french, german, n
+german, spanish, nohyphenation, loaded.
+File ignored)
+*X
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+<*> X
+     
+? X
+ 
+Here is how much of TeX's memory you used:
+ 6 strings out of 10828
+ 258 string characters out of 70593
+ 44558 words of memory out of 263001
+ 3039 multiletter control sequences out of 10000+0
+ 3640 words of font info for 14 fonts, out of 400000 for 1000
+ 22 hyphenation exceptions out of 1000
+ 5i,0n,4p,98b,14s stack positions out of 300i,100n,500p,50000b,4000s
+No pages of output.

@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% $Id: template.tex,v 1.1 2003/03/25 20:05:57 mariscal Exp $
+%
+% Memoria de @PROJECT_NAME@
+%
+% (C) Copyleft, 2002-2003, Álvaro Sánchez-Mariscal Arnaiz.
+%
+% Este documento puede distribuirse libremente según los términos de
+% la Free Documentation License (FDL) versión 1.1 o posterior, según
+% lo publicado por la Free Software Foundation.
+%
+%
+% $Log: template.tex,v $
+% Revision 1.1  2003/03/25 20:05:57  mariscal
+% Initial revision
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                                                                                             
+%%%%%%%%%%%%%
+% PREÁMBULO %
+%%%%%%%%%%%%%
+\documentclass[a4paper]{article}
+
+\usepackage[spanish,activeacute]{babel}
+\usepackage[isolatin]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{fancyhdr} % Metemos nuestras cabeceras chachis
+\usepackage{epsfig}
+
+\setlength{\parindent}{0pt}
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\voffset}{0cm}
+\setlength{\textwidth}{15cm}
+\setlength{\textheight}{22cm}
+
+\sloppy % suaviza las reglas de ruptura de líneas de LaTeX
+
+\author{@PROJECT_AUTHOR_NAME@ (\texttt{@PROJECT_AUTHOR_EMAIL@})}
+\title{@PROJECT_TITLE@ \\ Memoria}
+\date{\today}
+
+\pagestyle{fancy}
+
+%
+% Cabeceras gracias a Juan José Rodríguez Buleo.
+%
+
+\fancyhf{} % borrar todos los ajustes
+% En lo siguiente, fancyhead sirve para configurar la cabecera,
+% fancyfoot para el pie.
+% Justificación: C=centered, R=right, L=left, (nada)=LRC
+% Página: O=odd, E=even, (nada)=OE
+%\fancyfoot[C]{\thepage}
+
+\fancyhead[L]{\leftmark} % En las páginas impares, parte izquierda del 
+						  %encabezado, aparecerá el nombre de capítulo
+\fancyfoot[R]{\thepage} % En las páginas impares, parte izquierda del
+						 %encabezado, aparecerá el nombre de capítulo
+%\setlength{\headheight}{25.2842pt}
+
+%\fancyhead[RO,LE]{\epsfig{file=logo-uc3m.eps,height=1cm}
+\fancyhead[R]{\epsfig{file=logo-uc3m.eps,height=1cm}}
+%\fancyhead[RE]{@PROJECT_AUTHOR_NAME@ - @PROJECT_AUTHOR_EMAIL@}
+%\fancyhead[LO]{@PROJECT_AUTHOR_NAME@ - @PROJECT_AUTHOR_EMAIL@}
+\fancyfoot[L]{\textsf{@PROJECT_AUTHOR_NAME@ - @PROJECT_AUTHOR_EMAIL@}}
+
+%%%%%%%%%%%%%
+% DOCUMENTO %
+%%%%%%%%%%%%%
+\begin{document}
+
+
+% Portada
+\thispagestyle{empty}
+\begin{center}
+{\Huge \textbf{\textsf{@PROJECT_TITLE@}}} \\[1cm]
+{\Huge \textbf{\textsf{Memoria}}} \\[3cm]
+\includegraphics[width=3.5cm, height=3.5cm]{logo-uc3m.eps} \\[1cm]
+{\LARGE \textbf{\textsf{Universidad Carlos III de Madrid}}} \\[0.3cm]
+{\Large \textbf{\textsf{Escuela Politécnica Superior}}} \\[0.3cm]
+{\large \textbf{\textsf{Ingeniería Informática}}} \\
+\end{center}
+
+\begin{table}[b]
+\begin{center}
+\Large{\textsf{@PROJECT_AUTHOR_NAME@}} \\ 
+\texttt{@PROJECT_AUTHOR_EMAIL@}
+\end{center}
+\end{table}
+
+\newpage
+
+% Índice
+\maketitle
+\begin{center}
+\Large{\texttt{@PROJECT_URL@}}
+\end{center}
+\tableofcontents
+\listoffigures
+\newpage
+
+% Introducción
+\section{Introducción}
+
+Memoria de @PROJECT_NAME@
+
+\newpage
+
+%%%%%%%%%%%%%
+% APÉNDICES %
+%%%%%%%%%%%%%
+\appendix
+
+\section{Acerca de esta práctica}
+
+Toda la información sobre esta y otras prácticas se encuentra
+disponible en \texttt{@PROJECT_URL@}. Los ficheros estarán disponibles para el
+público en general una vez cerradas las actas de la asignatura. \\
+
+El esqueleto de esta práctica (memoria y ficheros fuente) ha sido generado 
+automáticamente mediante unas plantillas creadas por Álvaro
+Sánchez-Mariscal. Toda la información se encuentra disponible en
+\texttt{http://practicas.berlios.de/newproject}. Puedes contactar con el 
+autor en \texttt{mariscal@javahispano.org}. \\
+
+Tanto la práctica como esta memoria han sido desarrollados utilizando
+herramientas de software libre:\footnote{\texttt{http://www.gnu.org}}
+
+\begin{itemize}
+\item \textbf{Netbeans}\footnote{\texttt{http://www.netbeans.org}}: posiblemente
+uno de los mejores. Utilizado para desarrollar el código fuente.
+
+\item \textbf{CVS}\footnote{\texttt{http://www.cvshome.org}}: la herramienta de
+control de versiones más extendida, resulta imprescindible en todos los
+desarrollos de grandes proyectos de software libre. Una herramienta
+profesional.
+
+\item \textbf{Ant}\footnote{\texttt{http://jakarta.apache.org/ant}}: una
+herramienta de tipo \textit{make}, basada en Java. Imprescindible también para
+todo proyecto de categoría. Un excelente producto más de la Apache Software
+Foundation\footnote{\texttt{http://www.apache.org}}
+
+\item \textbf{JDK}\footnote{\texttt{http://www.blackdown.org}}: El JDK
+utilizado ha sido la versión para Linux del JDK 1.4.1 de Sun portado por el
+proyecto Blackdown. Esta máquina virtual ofrece, en algunos casos, una
+velocidad superior al 80\% en comparación con la máquina virtual de
+Sun.
+
+\item \textbf{Make}\footnote{\texttt{http://www.gnu.org/software/make}}: utilizado
+para generar cómodamente los formatos PDF y PS de esta memoria.
+
+\item \textbf{\LaTeX}\footnote{\texttt{http://www.ctan.org}}: potente lenguaje de 
+edición y procesado de textos con calidad de imprenta. Infinitamente superior a 
+Micro\$oft Word: mayor calidad y portabilidad. Con él se ha realizado esta
+memoria.
+
+\item \textbf{Vim}\footnote{\texttt{http://www.vim.org}}: uno de los mejores
+editores de texto existentes. 100\% en modo consola, es \emph{tan sobrio como
+eficaz} (como diría alguno). Con él se ha editado la memoria.
+
+\item \textbf{Debian GNU/Linux}\footnote{\texttt{http://www.debian.org}}: como
+dice el slogan, \textsc{The Choice of a GNU Generation}. Todo el software
+mencionado corre sobre una Debian Sid 3.0.
+\end{itemize}
+
+La práctica se puede distribuir y modificar bajo los términos de la Licencia
+Pública General de GNU (\textit{General Public License} publicada por la Free
+Software Foundation, tanto en su versión 2 como (a su elección) en cualquier
+versión posterior. Para más detalles, consulte la Licencia Pública General de
+GNU\footnote{\texttt{http://www.gnu.org/licenses/gpl.txt}} \\
+
+Asimismo, se otorga permiso para copiar, distribuir y/o modificar cualquiera de
+los documentos, ficheros de configuración, y \textit{scripts} de shell que
+acompañan a esta práctica, siempre que se mantenga en los fuentes el nombre del autor.
+
+%%%%%%%%%%%%%%%%%
+% FIN DOCUMENTO %
+%%%%%%%%%%%%%%%%%
+\end{document}

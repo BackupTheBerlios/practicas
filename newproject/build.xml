@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Id: build.xml,v 1.1 2003/03/25 20:05:57 mariscal Exp $ -->
+<!-- $Author: mariscal $ -->
+<!-- $Revision: 1.1 $ -->
+
+<!--
+
+   Este es el fichero de configuración de las tareas de Ant. Similar a un 
+   makefile en Unix, permite especificar en XML los comandos a utilizar en 
+   cada tarea. Al estar basado en Java, nos aseguramos de que la ejecución 
+   será independiente del sistema operativo
+
+-->
+
+<project name="newproject" default="create" basedir=".">
+
+	<property file="project.properties" />
+
+	<target name="prepare">
+		<copy file="project.properties.sample" toFile="project.properties" overwrite="true" />
+	</target>
+
+	<target name="create">
+
+
+		<mkdir dir="${project.name}" />
+		<mkdir dir="${project.name}/${javadoc.dir}" />
+		<mkdir dir="${project.name}/${doc.dir}" />
+		<mkdir dir="${project.name}/${doc.dir}/memoria" />
+		<mkdir dir="${project.name}/${javadoc.dir}" />
+		<mkdir dir="${project.name}/${build.dir}" />
+		<mkdir dir="${project.name}/${src.dir}" />
+		<mkdir dir="${project.name}/${lib.dir}" />
+		<mkdir dir="${project.name}/${conf.dir}" />
+
+		<copy file="Makefile" toDir="${project.name}/${doc.dir}/memoria">
+			<filterset>
+				<filter token="PROJECT_NAME" value="${project.name}" />
+			</filterset>
+		</copy>
+
+		<copy file="Template.java" toDir="${project.name}">
+			<filterset>
+				<filter token="INFO_1" value="${info.1}" />
+				<filter token="INFO_2" value="${info.2}" />
+				<filter token="INFO_3" value="${info.3}" />
+				<filter token="INFO_4" value="${info.4}" />
+				<filter token="AUTHOR" value="${project.author.html}" />
+				<filter token="URL" value="${project.url.html}" />
+			</filterset>
+		</copy>
+
+		<copy file="template.properties" toFile="${project.name}/project.properties">
+			<filterset>
+				<filter token="PROJECT_NAME" value="${project.name}" />
+				<filter token="PROJECT_AUTHOR_NAME" value="${project.author.name}" />
+				<filter token="URL" value="${project.url.html}" />
+				<filter token="JAVADOC_FOOTER" value="${javadoc.footer}" />
+			</filterset>
+		</copy>
+
+		<copy file="template.xml" toFile="${project.name}/build.xml" >
+			<filterset>
+				<filter token="PROJECT_TITLE" value="${project.title}" />
+				<filter token="PROJECT_NAME" value="${project.name}" />
+				<filter token="JAVADOC_DIR" value="${javadoc.dir}" />
+				<filter token="BUILD" value="${build.dir}" />
+				<filter token="SRC_DIR" value="${src.dir}" />
+				<filter token="LIB_DIR" value="${lib.dir}" />
+				<filter token="CONF_DIR" value="${conf.dir}" />
+			</filterset>
+		</copy>
+
+		<copy file="logo-uc3m.eps" toDir="${project.name}/${doc.dir}/memoria" />
+
+		<copy file="template.tex" toFile="${project.name}/${doc.dir}/memoria/${project.name}.tex">
+			<filterset>
+				<filter token="PROJECT_AUTHOR_NAME" value="${project.author.name}" />
+				<filter token="PROJECT_AUTHOR_EMAIL" value="${project.author.email}" />
+				<filter token="PROJECT_TITLE" value="${project.title}" />
+				<filter token="PROJECT_NAME" value="${project.name}" />
+				<filter token="PROJECT_URL" value="${project.url}" />
+			</filterset>
+		</copy>
+
+	</target>
+</project>

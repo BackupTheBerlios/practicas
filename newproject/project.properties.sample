@@ -1,0 +1,49 @@
+# Nombre UNIX del proyecto. Ejemplo: "practica-ssoo"
+project.name=
+
+# Nombre descriptivo del proyecto. 
+# Ejemplo: "Práctica de Sistemas Operativos"
+project.title=
+
+# Autor del proyecto
+project.author.name=
+
+# Código HTML para el autor
+project.author.html=
+
+# Email del autor
+project.author.email=
+
+# URL de el proyecto (en HTML)
+project.url.html=
+
+# URL de el proyecto
+project.url=
+
+# Código HTML para el pie de los javadocs
+javadoc.footer=
+
+# Líneas de Información para los fuentes
+info.1=
+info.2=
+info.3=
+info.4=
+
+# Directorio para almacenar la documentación. Ejemplo: "doc"
+doc.dir=
+
+# Directorio para almacenar el javadoc. Ejemplo: "doc/api"
+javadoc.dir=
+
+# Directorio para almacenar los .class. Ejemplo: "classes"
+build.dir=
+
+# Directorio donde estarán los fuentes. Ejemplo: "src"
+src.dir=
+
+# Directorio donde estarán las librerías. Ejemplo: "lib"
+lib.dir=
+
+# Directorio donde se almancenarán los ficheros de configuración.
+# Ejemplo: "conf"
+conf.dir=

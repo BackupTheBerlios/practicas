@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<!-- $Id: template.xml,v 1.1 2003/03/25 20:05:57 mariscal Exp $ -->
+<!-- $Author: mariscal $ -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 2003/03/25 20:05:57 $ -->
+
+<!--
+
+   Este es el fichero de configuración de las tareas de Ant. Similar a un 
+   makefile en Unix, permite especificar en XML los comandos a utilizar en 
+   cada tarea. Al estar basado en Java, nos aseguramos de que la ejecución 
+   será independiente del sistema operativo
+
+-->
+
+<project name="@PROJECT_NAME@" default="compile" basedir=".">
+
+	<property file="project.properties" />
+	<property name="javadoc.link" value="http://java.sun.com/j2se/1.4/docs/api" />
+	<property name="javadoc.dir" value="@JAVADOC_DIR@" />
+	<property name="build" value="@BUILD@" />
+	<property name="srcdir" value="@SRC_DIR@" />
+	<property name="libdir" value="@LIB_DIR@" />
+	<property name="confdir" value="@CONF_DIR@" />
+	<property name="packages" value="es.uc3m.*" />
+	<property name="manifest" value="${confdir}/MANIFEST.MF" />
+	<property name="major.version" value="0" />
+
+	<!-- FIXME -->
+	<property name="mainclass" value="" />
+	<property name="project.classpath" value="" />
+
+	<target name="init">
+		<buildnumber />
+	</target>
+
+   	<target name="compile" depends="init" description="Compila los fuentes">
+   	  	<mkdir dir="${build}" />
+      	<javac srcdir="${srcdir}" destdir="${build}" classpath="${project.classpath}" />
+   	</target>
+
+   	<target name="clean" description="Borra todos los archivos temporales y generables (.class, .jar, .html, etc)">
+      	<delete verbose="true">
+         	<fileset dir="." defaultexcludes="no">
+            	<patternset id="backup-files">
+               		<include name="**/*.*~" />
+               		<include name="**/*.class" />
+               		<exclude name="lib/*.class" />
+            	</patternset>
+         	</fileset>
+      	</delete>
+   	</target>
+
+   	<target name="javadoc" description="Genera la documentacion javadoc">
+   	  	<mkdir dir="${javadoc.dir}" />
+      	<javadoc sourcepath="${srcdir}" private="true" version="true" 
+				 destDir="${javadoc.dir}" author="true" use="true" 
+				 header="${project.name}" windowtitle="${project.name}" 
+				 doctitle="${project.name}" link="${javadoc.link}"
+                 footer="${javadoc.footer}" packagenames="${packages}"
+      	/>
+   </target>
+   
+   	<target name="dist" depends="build, javadoc" description="Crea el archivo tgz">
+      	<tar tarfile="${project.name}-${major.version}.${build.number}.tar" basedir=".." longfile="gnu" />
+      	<gzip src="${project.name}-${major.version}.${build.number}.tar"
+		zipfile="${project.name}-${major.version}.${build.number}.tar.gz" />
+      	<delete file="${project.name}-${major.version}.${build.number}.tar" />
+   	</target>
+
+   	<target name="build" depends="compile"> 
+      	<manifest file="${manifest}">
+        	<attribute name="Main-Class" value="${mainclass}" />
+      	</manifest>
+      	<delete file="${build}/*.jar" />
+      	<jar destfile="${project.name}.jar" basedir="${build}" manifest="${manifest}"/>
+      	<move file="${project.name}.jar" tofile="${build}/${project.name}.jar" />
+   	</target>
+
+</project>
