@@ -9,7 +9,8 @@
 \def\contstr{(contd.)}
 
 \title{Java y Software Libre}
-\author{\parbox{5.2cm}{\center javaHispano\\}}
+\author{\parbox{5.2cm}{\center javaHispano\\
+		\small{\texttt{http://www.javahispano.org}}}}
 
 \date{4 de abril de 2003}
 \cop{2002 javaHispano}
@@ -32,7 +33,7 @@
 	\item Evolución de Java: desde 1995 a la actualidad.
 	\item El JCP y las especificaciones.
 	\item Algunos datos estadísticos sobre el JCP.
-	\item Implementaciones libres.
+	\item Los peligros de una posible liberación.
 	\item Dudas y preguntas.
 	\end{itemize}
 \end{hslide}  
@@ -97,24 +98,629 @@
 		  \item Esta decisión provocó muchas críticas.
 		  \end{itemize}
 
+	\item Por ello, SUN decide crear su propio organismo: el JCP.
+
 	\newpage
 
-	\item Por todo lo anterior, SUN decide crear el \textbf{Java 
-		  Community Process} (JCP) en diciembre de 1998.
-	\item Organismo encargado de asegurar la evolución de Java.
-	\item Controla la creación, evolución y aprobación de las
-		  especificaciones.
 
 	\end{itemize}
 
 \end{hslide}  
+%%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{El JCP: Java Community Process}
+
+	\begin{itemize}
+	\item Creado el 8 de diciembre de 1998.
+	\item Organismo encargado de asegurar la evolución de Java.
+	\item Controla la creación, evolución y aprobación de las
+		  especificaciones.
+	\item Formado por más de 500 empresas y particulares del mundo de la informática y
+		  las telecomunicaciones: SUN, IBM, Oracle, HP, Motorola,
+		  Nokia, BEA, Siemens, Fujitsu, Borland, SAP, Ericcson, etc...
+		  \begin{itemize}
+		  \item Como era de esperar, Microsoft no ha querido formar
+			    parte.
+		  \end{itemize}
+	\end{itemize}
+
+	\newpage
+
+	\large{\textbf{Estructura del JCP}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Dos comités ejecutivos.
+	\item Uno encargado de J2ME, y otro encargado de J2SE/J2EE.
+	\item Formado cada uno por 16 miembros.
+	\item Una parte de ellos son elegidos mediante votación pública
+		  por todos los miembros del JCP. El resto son elegidos por
+		  los licenciatarios más importantes de SUN.
+	\item Éste último tipo debe ser ratificado en votación pública por
+		  todos los miembros del JCP.
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\large{\textbf{¿Quién puede participar?}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Cualquier persona, organización (con o sin ánimo de lucro) o
+		  empresa.
+	\item Precio:
+		\begin{itemize}
+		\item Entidades comerciales: $5000\$$.
+		\item Organizaciones académicas y sin ánimo de lucro: $2000\$$.
+		\item Personas individuales: $0\$$.
+		\item Licenciatarios de SUN: $0\$$.
+		\end{itemize}
+
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\large{\textbf{Java Specification Participation Agreement (JSPA)}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Es el contrato que hay que firmar para ser miembro del JCP.
+	\item Dura un año y es renovable (pagando las cuotas).
+	\end{itemize}
+
+	}
+
+	\large{\textbf{Individual Expert Participation Agreement (IEPA)}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item De esta forma no es necesario convertirse en miembro del
+		  JCP, sino que se puede participar como experto individual
+		  en alguna tecnología.
+	\item Estos expertos deben firmar el \textit{Java Specification
+		  Participation Agreement for an Individual Expert Group
+		  Participant}.
+	\item El experto se compromete a no revelar las
+		  interioridades del trabajo realizado por el grupo de
+		  expertos en que participe. 
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\large{\textbf{Java Specification Request (JSR)}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Es un documento que una persona/empresa crea cuando ven
+		  necesaria una determinada tecnología dentro de alguna de
+		  las plataformas de Java.
+	\item Dentro de este documento se especifica por qué es necesaria
+		  dicha tecnología, por qué no se pueden abordar los problemas
+		  que soluciona con las tecnologías existentes, cómo afectará
+		  esta tecnología a otras tecnologías existentes.
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\large{\textbf{Umbrella JSR (UJSR)}}
+
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Son JSR's en los que SUN tiene privilegios especiales.
+	\item Hay 3 UJSR's, y son los JSR's que definen las plataformas de
+		  Java: J2ME, J2SE y J2EE.
+	\item Además de estos privilegios, SUN cuenta con otros mecanismos
+		  de protección hacia el exterior:
+		  \begin{itemize}
+		  \item Tiene propiedad de los dominios \texttt{java.*} y
+				\texttt{javax.*}. Cualquier cambio en esas jerarquías
+				debe ser gestionada a través del JCP.
+		  \item Estos \textit{paraguas} evitan cualquier cambio en el
+				lenguaje o en la máquina virtual.
+		  \item Además, no se puede realizar ningún cambio sobre
+				\textit{Java Native Interface, JNI} ni modificar
+				ninguno de los paquetes distribuídos con la plataforma
+				estándar, J2SE.
+		  \end{itemize}
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\begin{itemize}
+	\item Estas medidas no son muy bien vistas desde el exterior.
+	\item SUN argumenta que son necesarias para proteger las
+		  plataformas de alteraciones indebidas, puesto que son las
+		  especificaciones más importantes.
+	\item Permitir cambios en estas especificaciones pondría en 
+		  peligro aspectos tan importantes de Java como la
+		  compatibilidad hacia atrás o la portabilidad.
+	\item Asimismo, permitir desarrollos bajo \texttt{java.*} y
+          \texttt{javax.*} podría dar lugar a diferentes versiones del
+		  lenguaje que no harían más que confundir al usuario o
+		  incluso poner en duda una vez más la multiplataforma.
+		  \begin{itemize}
+		  \item Ejemplo: Microsoft Visual J++.
+		  \end{itemize}
+	\end{itemize}
+
+	\newpage
+
+	\large{\textbf{El proceso de desarrollo en el JCP}} \\
+	\includegraphics[width=11cm]{jsr.epsi}
+
+	\newpage
+
+	\normalsize{
+
+	\begin{itemize}
+	\item \textbf{Envío de la especificación:}
+		  \begin{itemize}
+		  \item Lo primero que debemos hacer es proponer la
+				especificación al comité que corresponda del JCP.
+		  \item Tras un par de semanas, el comité aprobará o rechazará
+				nuestra propuesta.
+		  \end{itemize}
+	\item \textbf{Revisión de la comunidad:}
+		  \begin{itemize}
+		  \item En esta fase, los miembros del JCP (y sólo ellos)
+				pueden revisar la especificación y aportar sus
+				comentarios.
+		  \item Esta fase dura de 1 a 3 meses. La última semana
+				después de cerrarse la revisión pública, se procede a
+				una votación en la que se decide si la especificación
+				puede pasar a su fase final.
+		  \end{itemize}
+	\newpage
+	\item \textbf{Revisión pública:}
+		  \begin{itemize}
+		  \item Llegados a este punto, deberemos preparar y retocar
+				nuestra especificación para su revisión pública.
+		  \item En esta fase, cualquiera se la puede descargar,
+				revisarla, y opinar para tratar de mejorar la
+				especificación, \textbf{incluso sin ser miembro del JCP}.
+		  \item Durante esta fase (que dura también de 1 a 3 meses) es
+				cuando tenemos que terminar de desarrollar la
+				implementación de referencia (RI) y el conjunto de
+				pruebas (TCK) que se pondrán a disposición del público.
+		  \item Si todo va bien, habrá una nueva votación por parte
+				del comité correspondiente.
+		  \item Si finalmente es aprobada, nuestra especificación es
+				ya un estándar más dentro del mundo Java.
+		  \end{itemize}
+	\newpage
+	\item \textbf{Fase de mantenimiento:}
+		  \begin{itemize}
+		  \item Aquí se produce el mantenimiento de nuestra
+				especificación. Podemos añadir y corregir
+				características.
+		  \item Cualquier modificación require pasar por las fases de
+				revisión pública y por las votaciones respectivas.
+		  \end{itemize}
+
+	\end{itemize}
+
+
+	}
+
+\end{hslide}  
 %% -------------------------------------------------------------- 
-
-
-
 %% -------------------------------------------------------------- 
 \begin{hslide}
-\slsect{}
+\slsect{Las partes de un JSR}
+
+	\large{\textbf{La especificación}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Es simplemente un PDF que describe la tecnología resultado
+		  del esfuerzo realizado por el grupo de trabajo del JSR en
+		  cuestión.
+	\end{itemize}
+
+	}
+
+	\large{\textbf{El test de compatibilidad (TCK)}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Conjunto de pruebas que garantizan que una determinada
+		  implementación es compatible con la especificación a la
+		  que corresponden los tests.
+	\item El JCP pone a disposición de los creadores de cada
+		  especificación una serie de herramientas (\textit{Java
+		  Compatibility Test Tools}) para crear estos tests.
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\large{\textbf{La implementación de referencia}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Toda especificación debe proporcionar también una
+		  implementación de referencia. Esta implementación debe haber
+		  pasado además los tests de compatibilidad.
+	\item Las implementaciones de referencia son importantes porque...
+		  \begin{enumerate}
+		  \item Aparecen mucho antes que las versiones
+				comerciales/libres, por lo que permiten familiarizarse
+				rápidamente con la tecnología.
+		  \item Al haber pasado los tests de compatibilidad, nos
+				aseguramos que los desarrollos que hagamos sobre ella
+				se puedan portar a otras implementaciones que también
+				sean compatibles.
+		  \item Como suelen ser más sencillas que las comerciales,
+				permiten una adapatación mucho más simple a las
+				diferentes tecnologías.
+		  \end{enumerate}
+	\item Antes de usar una implementación de referencia, debemos
+		  asegurarnos que sea apta para producción.
+	\end{itemize}
+
+	}
+
+\end{hslide}  
+%%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Problemas del antiguo JCP}
+
+	\begin{itemize}
+	\item Aunque la labor del JCP parezca adecuada, analizada desde el
+		  punto de vista del software libre vemos que tiene muchas
+		  limitaciones:
+		  \begin{description}
+		  \item [TCK's] Era necesario pagar unas cuotas de varios
+			    miles de dólares para poder acceder a las \textit{Java
+				Compatibility Test Tools}. \\
+				Sin embargo, el pasar no pasar estos test no impide
+				crear implementaciones libres: es simplemente una
+				cuestión de marketing (una \textit{medalla}). \\
+				Ejemplo: estándares ISO o certificados \textit{Common
+				Criteria} de la seguridad de los sistemas operativos.
+		  \item [Derecho de veto] SUN tenía el privilegio de poder
+				anular cualquier especificación.
+
+		  \newpage
+
+		  \item [Cuotas] Para pertenecer al JCP era necesario pagar
+				unas cuotas, destinadas a paliar los gastos
+				administrativos que se generan. Esto perjudica
+				gravemente a los grupos de software libre.
+
+		  \item [Patentes] Si alguna especificación tiene patentes
+				dentro de ella, las implementaciones deberán
+				respetarlas.
+
+		  \item [Licencias] No se permite modificar la licencia de
+				ninguna especificación, test de compatibilidad o
+				implementación de referencia. Normalmente esta
+				licencia estaba basada en la SCSL. Esto supone grandes
+				inconvenientes para el desarrollo de proyectos libres.
+
+		  \end{description}
+	\end{itemize}
+
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{El presente: el JCP 2.5}
+
+	\begin{itemize}
+	\item Era obvio que la versión 2.1 del JCP ponía muchas trabas al
+		  desarrollo del software libre.
+	\item Una de las organizaciones afectadas era la \textit{Apache
+		  Software Foundation}.
+	\item Por un lado, estaba desarrollando implementaciones de
+		  referencia de algunas especificaciones, como la de
+		  Servlets/JSP, JDOM o Axis.
+	\item Por el otro, la fundación Apache ofrecía gratuitamente el
+		  código de estas implementaciones, con una licencia libre 
+		  (la \textit{Apache Software License}, y su proceso de
+		  desarrollo no se basaba en el JCP sino que era totalmente
+	      público.
+	\item Todo esto iba absolutamente contra todas las licencias del
+		  JSPA, poniendo a la fundación Apache en una situación de
+		  ilegalidad.
+
+	\newpage
+
+	\item No obstante, las relaciones entre SUN y la fundación Apache
+		  eran magníficas y habían estado trabajando conjuntamente
+		  durante mucho tiempo.
+	\item El apoyo de SUN a Apache era de sobra conocido, sin embargo
+		  la propia ética de la fundación obligó a ésta a exigir un
+		  remodelamiento del JCP.
+	\item Una muestra del descontento de la fundación Apache es que
+		  durante durante los últimos 2 años emitió un NO en la fase
+		  de aprobación de \textbf{14} JSR's diferentes, casi siempre
+		  por problemas en las licencias, como por ejemplo el API de
+		  \textit{logging} del JDK 1.4, que prácticamente ilegalizaba 
+		  a \textit{log4j} (de la fundación Apache), un proyecto estable 
+		  y de gran éxito.
+
+	\newpage
+
+	\item Concretamente, la fundación Apache exigió que el nuevo JSPA
+		  cumpliera al menos las siguientes condiciones:
+		  \begin{enumerate}
+		  \item Una licencia de una especificación no debería prohibir
+				la creación de una implementación compatible. Se
+				deberían permitir implementaciones liberadas bajo la
+				licencia Apache u otras más libres. \\
+				Si una especificación tiene alguna parte de código
+				sujeta a alguna patente que no permita su uso libre,
+				dicho código ha de estar disponible de un modo no
+				restringido y libre de todo coste.
+		  \item Se debe permitir la creación de implementaciones de
+				referencia y/o tests de compatibilidad liberados bajo
+				una licencia libre (una vez más, como mínimo, la de
+				Apache). Hasta la fecha eso ya se había conseguido con
+				las especificaciones de Servlets, JSP y Taglibs.
+
+		  \newpage
+
+		  \item Se ha de permitir que un grupo de expertos utilice
+				foros de discusión públicos así como publicar
+				\textit{drafts} públicos cuando lo deseen, incluso
+				antes de la fase de revisión pública. Sólo se
+				protegerían las discusiones explícitamente
+				confidenciales.
+
+		  \item Se debe permitir que grupos de software libre tengan
+				acceso a los TCK's sin tener que pagar las cuotas
+				necesarias hasta el momento.
+
+		  \end{enumerate}
+
+	\newpage
+
+	\item SUN, consciente de la situación y consciente de la
+		  importancia de tener la colaboración de una fundación
+		  como Apache, decidió remodelar el JCP.
+
+	\item Don Deustsch, vicepresidente del departamento de estándares,
+		  estrategia y arquitectura de Oracle, presidió grupo formado
+		  formado por ejecutivos del JCP, cuya misión era estudiar y
+		  revisar los derechos y deberes de todos los miembros y
+		  licenciatarios del JCP.
+
+	\item El objetivo era ayudar a pequeños desarrolladores,
+		  organizaciones educativas, entidades sin ánimo de lucro,
+		  etc. a competir de forma más efectiva con las grandes
+		  empresas.
+
+
+	\item El proceso de liberacio duró 25 meses, y se hizo público en
+		  marzo de 2002. Tres meses después, la fundación Apache y SUN
+		  llegaron a un acuerdo definitivo: el JCP 2.5 entraría en
+		  vigor en noviembre de 2002.
+	\end{itemize}
+
+	\newpage
+
+	\large{\textbf{Ventajas del JCP 2.5}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item \textbf{Cuotas}: un comité se encargará de decidir si un grupo de
+		  software libre, entidad sin ánimo de lucro, universidad,
+		  etc, es apto para entrar en el JCP o pasar los tests de
+		  compatibilidad.
+		  La idea es intentar evitar la diversificación de las
+		  implementaciones. \\
+		  Este comité está formado por 3 personas: un representante
+		  del mundo del software libre o del mundo académico, un
+		  representante de SUN y otro miembro escogido
+		  democráticamente por el JCP.
+
+	\item \textbf{Derecho de veto}: SUN ha renunciado al derecho de veto.
+
+	\item \textbf{Patentes}: si una especificación tiene patentes, las
+		  implementaciones no tienen por qué respetarlas.
+
+	\newpage
+
+	\item \textbf{Licencias}: sin duda la novedad más importante es
+		  que ahora es posible implementar cualquier especificación,
+		  test de compatibilidad o implementación de referencia
+		  \textbf{bajo cualquier licencia, por libre que sea}. \\ \\
+		  Esto es un hito importantísimo dentro de la historia de
+		  Java, puesto que ahora se legitiman implementaciones
+		  libres de multitud de especificaciones.
+		
+
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\large{\textbf{El futuro}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item El proceso de liberación no es inmediato. Inicialmente,
+		  todas las especificaciones iniciadas a partir del 29 de
+		  octubre de 2002 operan bajo la versión 2.5 del JCP.
+
+	\item Respecto a las especificaciones ya existentes pueden darse 2
+		  casos diferentes. Por un lado las nuevas versiones pasan a
+		  regirse bajo el nuevo JCP. Para el resto de versiones, se
+		  deja la decisión de modificar el JCP por el que se rigen al 
+		  líder de la especificación.
+	\end{itemize}
+
+	}
+
+	\newpage
+
+	\large{\textbf{¿Qué falta por hacer?}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Aunque los cambios en el JCP han sido importantísimos, SUN
+		  afirma que aún no es suficiente.
+	\item Esta opinión coincide con la de la mayoría de las
+		  organizaciones y empresas vinculadas al mundo Java.
+	\item La mayor parte de la comunidad coincide que los siguientes
+		  pasos deben encaminarse a:
+
+		  \begin{enumerate}
+		  \item Liberar las especificaciones afectadas por los viejos
+				JSPA's.
+		  \item Liberar los UJSR's. La especificación del lenguaje,
+				así como algunos UJSR's donde SUN tiene privilegios
+				especiales, no se encuentra bajo el JCP, por lo que no
+				se les puede aplicar estas nuevas políticas. \\ 
+				La comunidad anhela la liberación de estos JSR's,
+				aunque esta liberación no está exenta de peligros.
+		  \end{enumerate}
+
+	\end{itemize}
+
+	}
+
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Datos estadísticos}
+	\large{\textbf{JSR's creados y terminados}} \\
+	\includegraphics[width=10.5cm]{new-jsr.epsi}
+
+	\tiny{Gráficas cedidas por la revista JavaWorld para javaHispano}
+
+	\newpage
+
+	\large{\textbf{Miembros del JCP más activos}} \\
+	\includegraphics[width=7.5cm]{members.epsi}
+
+	\newpage
+
+	\large{\textbf{JSR's liderados por miembros del JCP}} \\
+	\includegraphics[width=8cm]{leaders.epsi}
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{¿Es Java libre?}
+	\begin{itemize}
+	\item No se puede responder a esta pregunta sin tener en cuenta
+	      Java como...
+		  \begin{enumerate}
+		  \item Un lenguaje de programación.
+		  \item Una especificación de una máquina virtual.
+		  \item Una especificación de un formato binario
+				(\textit{bytecodes}).
+		  \item Un conjunto de clases y liberías.
+		  \end{enumerate}
+
+	\item Para los tres primeros casos, \textbf{java es libre}.
+
+	\newpage
+
+	\item Para el último caso, aparecen varias alternativas:
+		  \begin{enumerate}
+		  \item Utilizar el JDK de SUN. Este SDK no es libre. Su
+				código fuente se distribuye bajo licencia SCSL.
+
+		  \item Utilizar un SDK de algún licenciatario de SUN. Es el
+				caso del JDK de IBM. Estos JDK's tampoco son libres,
+				ya que normalmente lo que se licencia es el código
+				fuente.
+
+		  \item Utilizar una implementación libre. Java no es sólo un
+				JDK, sino que también es una especificación de un
+				lenguaje, máquina virtual y de un formato de código de
+				bytes. Estas especificaciones son libres y cualquiera
+				puede implementarlas. Este es el caso de gjc o Jikes.\\
+				El único requisito es que no se llamen "Java".
+		  \end{enumerate}
+	\end{itemize}
+
+	\newpage
+
+	\large{\textbf{Los peligros de una liberación}}
+
+	\normalsize{
+
+	\begin{itemize}
+	\item Mucha gente cree que SUN debería liberar su kit de
+		  desarrollo.
+	\item SUN opina que esta liberación pondría en compromiso a la
+		  plataforma Java. El motivo es simple: si lo hiciese, ¿cómo
+		  podría garantizar la condición de \textit{Write Once, Run
+		  Anywhere}?.
+	\item Muchos expertos opinan que no se podría, ya que se han dado
+		  casos como Visual J++, donde empresas como Microsoft han
+		  creado variaciones importantes del lenguaje que ponen en
+		  peligro la propiedad de multiplataforma.
+	\item Sin embargo otros opinan que es importante la liberación del
+		  código.
+	\item Danese Cooper, ejecutivo de SUN, dice que tras muchas
+		  reuniones entre miembros de SUN y líderes del mundo del 
+		  software libre, ambos coinciden en una cosa: \textbf{la
+		  compatibilidad obligatoria y el software libre no pueden
+		  coexistir}.
+
+	\newpage
+
+	\item Este último concepto es muy interesante a la par que
+		  polémico.
+
+	\item La licencia de los UJSR's, limita la aparición de
+		  implementaciones que se aparten de la especificación.
+	\item No se pueden crear ni subconjuntos ni superconjuntos de
+		  dichas especificaciones.
+	\item Liberar estos UJSR's permitiría crear ampliaciones o
+		  reducciones de lo marcado, y daría pie a que
+		  implementaciones devaluadas se hiciesen con el mercado
+		  aprovechándose de su situación (ej: Microsft).
+	\item ¿Dónde está el equilibrio? La solución no es sencilla, y el 
+		  tiempo lo dirá, aunque la opción más sensata parece el paso
+		  de la especificación del lenguaje dentro del JCP para que 
+		  toda la comunidad participe en su evolución.	
+
+	\end{itemize}
+
+	}
+
+\end{hslide}  
+%% -------------------------------------------------------------- 
+%% -------------------------------------------------------------- 
+\begin{hslide}
+\slsect{Dudas y preguntas}
+
+\begin{center}
+\Huge{¿...?}
+\end{center}	
+
 \end{hslide}  
 %% -------------------------------------------------------------- 
 
